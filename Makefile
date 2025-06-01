@@ -266,10 +266,13 @@ commit: bump
 # release: commit local-install build
 
 patch: override type = patch
-minor: override type = minor
-major: override type = major
+patch release &: commit local-install build
 
-$(type) release &: commit local-install build
+minor: override type = minor
+minor release &: commit local-install build
+
+major: override type = major
+major release &: commit local-install build
 
 
 #minor: override type = "minor"
