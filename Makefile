@@ -144,7 +144,7 @@ example-pip-install-command:
 
 .PHONY: pre-requisites
 pre-requisites:
-	@echo "$(blue-bold)Checking Requirements ...$(reset)"
+	@echo "$(blue-bold)Checking Requirements ...$(reset)" && echo
 	@command -v brew 2>&1> /dev/null || bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	@$(call step,"Verified Homebrew Installation")
 	@command -v pre-commit 2>&1> /dev/null || brew install pre-commit && pre-commit install 2>&1> /dev/null && pre-commit install-hooks 2>&1> /dev/null
@@ -167,7 +167,7 @@ pre-requisites:
 
 .PHONY: uninstall
 uninstall:
-	@echo "$(blue-bold)Uninstalling Package$(reset): ($(name))"
+	@echo "$(blue-bold)Uninstalling Package$(reset): ($(name))" && echo
 	@rm -rf /opt/homebrew/etc/gitconfig
 	@brew uninstall $(name) --force || true
 	@brew untap $(homebrew-tap) --force || true
@@ -175,7 +175,7 @@ uninstall:
 
 .PHONY: install
 install: uninstall
-	@echo "$(blue-bold)Installing Package$(reset): ($(name))"
+	@echo "$(blue-bold)Installing Package$(reset): ($(name))" && echo
 	@brew tap $(homebrew-tap) $(homebrew-tap-repository) --force-auto-update --force
 	@brew update
 	@brew install $(name)
@@ -183,7 +183,7 @@ install: uninstall
 
 .PHONY: overwrite-private-homebrew-download-strategy
 overwrite-private-homebrew-download-strategy:
-	@echo "$(blue-bold)Overwriting Private Homebrew Download Strategy$(reset): ($(name))"
+	@echo "$(blue-bold)Overwriting Private Homebrew Download Strategy$(reset): ($(name))" && echo
 	@rm -rf ./.upstreams
 	@sed -i -e "s/using: GitDownloadStrategy/using: GitDownloadStrategy, tag: \"$(tag)\"/g" ./dist/homebrew/Formula/$(name).rb
 	@mkdir -p .upstreams
@@ -200,7 +200,7 @@ overwrite-private-homebrew-download-strategy:
 # ------------------------------------------------------------------------------------
 
 unit-testing:
-	@printf "$(blue-bold)%s$(reset)\n" "Running Unit Test(s)$(reset) ..." && echo
+	@echo "$(blue-bold)Running Unit Test(s)$(reset) ..." && echo
 	@python -m pytest && echo
 	@$(call step,"Complete") && echo
 
@@ -218,13 +218,13 @@ git-check-tree:
 		echo "" ; \
 		exit 1; \
 	fi
-	@$(call step, "Clean Working Tree") && echo
+	@$(call step,"Clean Working Tree") && echo
 
 .PHONY: bump
 bump: pre-requisites unit-testing git-check-tree
-	@echo "$(green-bold)Bumping Version: \"$(yellow-bold)$(package)$(reset)\" - $(white-bold)$(version)$(reset)"$(reset)"
+	@echo "$(green-bold)Bumping Version: \"$(yellow-bold)$(package)$(reset)\" - $(white-bold)$(version)$(reset)"
 	@echo "$($(type)-upgrade)" > VERSION
-	@$(call step, "Updated Version Lock") && echo
+	@$(call step,"Updated Version Lock") && echo
 
 .PHONY: commit
 commit: bump
