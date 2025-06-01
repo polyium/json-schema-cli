@@ -25,7 +25,7 @@ ifdef HOMEBREW_TAP_REPOSITORY
 endif
 
 type := patch
-ifdef CI_RELEASE_TYPE
+ifdef RELEASE_TYPE
     override type = $(CI_RELEASE_TYPE)
 endif
 
@@ -258,6 +258,6 @@ commit: bump
 	@echo
 	@$(call step,"Pushed Semantic Tag Version") && echo
 
-.PHONY: release-$(type)
-release-$(type): commit local-install
+.PHONY: patch minor release
+patch minor release: commit local-install
 

@@ -6,7 +6,7 @@ import tempfile
 import pytest
 import logging
 
-import models.base
+import polyium.models.base
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +15,7 @@ def test_base_instance_working_directory(request: pytest.FixtureRequest):
     Tests the working directory exists.
     """
 
-    instance = models.base.Base()
+    instance = polyium.models.base.Base()
 
     assert instance.working_directory.exists()
     assert instance.working_directory.is_absolute()
@@ -25,7 +25,7 @@ def test_base_instance_default_artifacts_directory(request: pytest.FixtureReques
 
     temporary.mkdir(parents=True, exist_ok=True)
 
-    instance = models.base.Base(working_directory=temporary)
+    instance = polyium.models.base.Base(working_directory=temporary)
 
     try:
         assert not instance.artifacts_directory.exists()
@@ -43,7 +43,7 @@ def test_base_instance_create_working_directory(request: pytest.FixtureRequest):
 
     temporary.mkdir(parents=True, exist_ok=True)
 
-    instance = models.base.Base(working_directory=temporary, create_working_directory=True)
+    instance = polyium.models.base.Base(working_directory=temporary, create_working_directory=True)
 
     try:
         assert instance.working_directory.exists()
@@ -57,7 +57,7 @@ def test_base_instance_create_artifacts_directory(request: pytest.FixtureRequest
 
     temporary.mkdir(parents=True, exist_ok=True)
 
-    instance = models.base.Base(working_directory=temporary, create_artifacts_directory=True)
+    instance = polyium.models.base.Base(working_directory=temporary, create_artifacts_directory=True)
 
     try:
         assert instance.artifacts_directory.exists()
@@ -72,7 +72,7 @@ def test_base_instance_model(request: pytest.FixtureRequest):
     dump output and cleaning up temporary files created during execution.
     """
 
-    instance = models.base.Base()
+    instance = polyium.models.base.Base()
 
     v = instance.model_dump_json(indent=4, by_alias=True)
 
@@ -83,7 +83,7 @@ def test_base_instance_model_schema(request: pytest.FixtureRequest):
     Tests the model JSON schema of the Base instance.
     """
 
-    instance = models.base.Base()
+    instance =polyium.models.base.Base()
 
     v = instance.model_json_schema()
     content = json.dumps(v, indent=4, sort_keys=False)
