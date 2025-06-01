@@ -237,10 +237,4 @@ commit: bump
 	@$(call step,"Pushed Semantic Tag Version") && echo
 
 .PHONY: release-patch
-release-patch: bump
-
-.PHONY: release-minor
-release-minor: bump
-
-.PHONY: release-major
-release-major: bump
+release $(type): commit
