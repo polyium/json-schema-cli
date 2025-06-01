@@ -258,6 +258,11 @@ commit: bump
 	@echo
 	@$(call step,"Pushed Semantic Tag Version") && echo
 
+# ====================================================================================
+# Release
+# ------------------------------------------------------------------------------------
+
 .PHONY: patch minor release
-patch minor release: commit local-install
+patch minor release: commit local-install build
+	@$(name) -v
 
