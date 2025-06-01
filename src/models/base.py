@@ -9,19 +9,19 @@ import logging
 
 import pydantic
 
-import example.models.internal.base
-import example.models.configuration
+import models.internal.base
+import models.configuration
 
 from pydantic import Field, WithJsonSchema
 
 logger = logging.getLogger(__name__)
 
-class Base(example.models.internal.base.Model):
+class Base(models.internal.base.Model):
     """
     A base class representing a fragrance input-output model.
     """
 
-    model_config = example.models.configuration.default()
+    model_config = models.configuration.default()
 
     working_directory: typing.Annotated[pydantic.DirectoryPath, Field(strict=False), WithJsonSchema({})] = Field(default=".", description="The program's runtime working directory. Any other relative directories will be constructed using this option unless explicitly specified. Implementations executing subprocess(es) should set the PID's executing directory to such value. By default, this directory is not created. See the \"create-working-directory\" option for changing the default behavior.")
     create_working_directory: bool = Field(default=False, description="Whether to create the working directory if it doesn't already exist.")

@@ -155,7 +155,7 @@ pre-requisites:
 		echo ""; \
 		echo "$(italic)    python3 -m venv .venv$(reset)" ; \
 		echo "$(italic)    source .venv/bin/activate$(reset)" ; \
-		echo "$(italic)    python -m pip install \".[all]\"$(reset)" ; \
+		echo "$(italic)    python -m pip install --editable \".[all]\"$(reset)" ; \
 		echo ""; \
 		exit 1; \
 	fi

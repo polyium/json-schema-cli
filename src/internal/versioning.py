@@ -35,9 +35,9 @@ class Version:
 
     def __post_init__(self):
         try:
-            import example.internal.__version__
+            import internal.__version__
 
-            string = example.internal.__version__.version
+            string = internal.__version__.version
 
             self.literal = string
 
