@@ -234,7 +234,7 @@ commit: bump
 	@git push --set-upstream origin main
 	@git tag "v$(version)"
 	@git push origin "v$(version)"
-	@echo && $(call step,"Pushed Semantic Tag Version") && echo
+	@echo && @$(call step,"Pushed Semantic Tag Version") && echo
 
 .PHONY: release-patch
 release-$(type): commit
