@@ -222,7 +222,7 @@ git-check-tree:
 
 .PHONY: bump
 bump: pre-requisites unit-testing git-check-tree
-	@echo "$(green-bold)Bumping Version: \"$(yellow-bold)$(package)$(reset)\" - $(white-bold)$(version)$(reset)"
+	@echo "$(green-bold)Bumping Version: \"$(yellow-bold)$(package)$(reset)\" - $(white-bold)$(version)$(reset)" && echo
 	@echo "$($(type)-upgrade)" > VERSION
 	@$(call step,"Updated Version Lock") && echo
 
