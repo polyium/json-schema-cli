@@ -4,19 +4,19 @@ import logging
 
 import pytest
 
-import utilities.systems
+import polyium.utilities.systems
 
 logger = logging.getLogger(__name__)
 
 def test_descriptor(request: pytest.FixtureRequest):
-    instance = utilities.systems.Descriptor("{}.test".format(request.node.name))
+    instance = polyium.utilities.systems.Descriptor("{}.test".format(request.node.name))
 
     assert instance.exists() is False
 
-    assert isinstance(instance, utilities.systems.Descriptor)
+    assert isinstance(instance, polyium.utilities.systems.Descriptor)
 
 def test_descriptor_file(request: pytest.FixtureRequest):
-    instance = utilities.systems.Descriptor("{}.test".format(request.node.name))
+    instance = polyium.utilities.systems.Descriptor("{}.test".format(request.node.name))
 
     assert instance.exists() is False
 
@@ -31,7 +31,7 @@ def test_descriptor_file(request: pytest.FixtureRequest):
     assert instance.exists() is False
 
 def test_descriptor_directory(request: pytest.FixtureRequest):
-    instance = utilities.systems.Descriptor("{}.test".format(request.node.name))
+    instance = polyium.utilities.systems.Descriptor("{}.test".format(request.node.name))
 
     assert instance.exists() is False
 
@@ -47,7 +47,7 @@ def test_descriptor_directory(request: pytest.FixtureRequest):
     assert instance.exists() is False
 
 def test_directory_temporary(request: pytest.FixtureRequest):
-    instance = utilities.systems.Directory.temporary()
+    instance = polyium.utilities.systems.Directory.temporary()
 
     assert instance.exists() is True
 
