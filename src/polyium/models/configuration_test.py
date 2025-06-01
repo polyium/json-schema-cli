@@ -4,7 +4,7 @@ import pydantic
 import pytest
 import logging
 
-import models.configuration as module
+import polyium.models.configuration as module
 
 logger = logging.getLogger(__name__)
 
