@@ -2,12 +2,12 @@ import os
 
 import logging
 
-import utilities.colors
+import polyium.utilities.colors
 
 logger = logging.getLogger(__name__)
 
 def test_bold():
-    v = utilities.colors.bold("bold")
+    v = polyium.utilities.colors.bold("bold")
 
     logger.debug("Output: {}".format(v))
 
@@ -18,7 +18,7 @@ def test_bold():
         assert v == "bold"
 
 def test_dim():
-    v = utilities.colors.dim("dim")
+    v = polyium.utilities.colors.dim("dim")
 
     logger.debug("Output: {}".format(v))
 
@@ -29,7 +29,7 @@ def test_dim():
         assert v == "dim"
 
 def test_italic():
-    v = utilities.colors.italic("italic")
+    v = polyium.utilities.colors.italic("italic")
 
     logger.debug("Output: {}".format(v))
 
@@ -40,7 +40,7 @@ def test_italic():
         assert v == "italic"
 
 def test_underline():
-    v = utilities.colors.underline("underline")
+    v = polyium.utilities.colors.underline("underline")
 
     logger.debug("Output: {}".format(v))
 
@@ -51,7 +51,7 @@ def test_underline():
         assert v == "underline"
 
 def test_strikethrough():
-    v = utilities.colors.strikethrough("strikethrough")
+    v = polyium.utilities.colors.strikethrough("strikethrough")
 
     logger.debug("Output: {}".format(v))
 
@@ -62,7 +62,7 @@ def test_strikethrough():
         assert v == "strikethrough"
 
 def test_red():
-    v = utilities.colors.red("red")
+    v = polyium.utilities.colors.red("red")
 
     logger.debug("Output: {}".format(v))
 
@@ -73,7 +73,7 @@ def test_red():
         assert v == "red"
 
 def test_blue():
-    v = utilities.colors.blue("blue")
+    v = polyium.utilities.colors.blue("blue")
 
     logger.debug("Output: {}".format(v))
 
@@ -84,7 +84,7 @@ def test_blue():
         assert v == "blue"
 
 def test_green():
-    v = utilities.colors.green("green")
+    v = polyium.utilities.colors.green("green")
 
     logger.debug("Output: {}".format(v))
 
@@ -95,7 +95,7 @@ def test_green():
         assert v == "green"
 
 def test_yellow():
-    v = utilities.colors.yellow("yellow")
+    v = polyium.utilities.colors.yellow("yellow")
 
     logger.debug("Output: {}".format(v))
 
@@ -106,7 +106,7 @@ def test_yellow():
         assert v == "yellow"
 
 def test_magenta():
-    v = utilities.colors.magenta("magenta")
+    v = polyium.utilities.colors.magenta("magenta")
 
     logger.debug("Output: {}".format(v))
 
@@ -117,7 +117,7 @@ def test_magenta():
         assert v == "magenta"
 
 def test_cyan():
-    v = utilities.colors.cyan("cyan")
+    v = polyium.utilities.colors.cyan("cyan")
 
     logger.debug("Output: {}".format(v))
 
@@ -128,7 +128,7 @@ def test_cyan():
         assert v == "cyan"
 
 def test_white():
-    v = utilities.colors.white("white")
+    v = polyium.utilities.colors.white("white")
 
     logger.debug("Output: {}".format(v))
 
@@ -139,7 +139,7 @@ def test_white():
         assert v == "white"
 
 def test_default():
-    v = utilities.colors.default("default")
+    v = polyium.utilities.colors.default("default")
 
     logger.debug("Output: {}".format(v))
 
@@ -150,7 +150,7 @@ def test_default():
         assert v == "default"
 
 def test_black():
-    v = utilities.colors.black("black")
+    v = polyium.utilities.colors.black("black")
 
     logger.debug("Output: {}".format(v))
 
@@ -161,7 +161,7 @@ def test_black():
         assert v == "black"
 
 def test_purple():
-    v = utilities.colors.purple("purple")
+    v = polyium.utilities.colors.purple("purple")
 
     logger.debug("Output: {}".format(v))
 
@@ -172,7 +172,7 @@ def test_purple():
         assert v == "purple"
 
 def test_gray():
-    v = utilities.colors.gray("gray")
+    v = polyium.utilities.colors.gray("gray")
 
     logger.debug("Output: {}".format(v))
 
