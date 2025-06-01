@@ -15,19 +15,18 @@ endif
 
 homebrew-tap := polyium/json-schema-cli
 ifdef HOMEBREW_TAP
-    override homebrew-tap = $(CI_HOMEBREW_TAP)
+    override homebrew-tap = $(HOMEBREW_TAP)
 endif
 
 # homebrew-tap-repository := gitlab.com:example-organization/group-1/group-2/homebrew-taps.git
 homebrew-tap-repository := https://github.com/polyium/homebrew-taps
 ifdef HOMEBREW_TAP_REPOSITORY
-    override homebrew-tap-repository = $(CI_HOMEBREW_TAP_REPOSITORY)
+    override homebrew-tap-repository = $(HOMEBREW_TAP_REPOSITORY)
 endif
 
-type := patch
-
-ifdef RELEASE_TYPE
-    override type = $(CI_RELEASE_TYPE)
+type = patch
+ifdef RELEASE
+    override type = $(RELEASE)
 endif
 
 type-title = $(shell printf "%s" "$(shell tr '[:lower:]' '[:upper:]' <<< "$(type)")")
@@ -263,8 +262,6 @@ commit: bump
 # Release
 # ------------------------------------------------------------------------------------
 
-# release: commit local-install build
-
 patch: override type = patch
 patch release &: commit local-install build
 
@@ -274,10 +271,3 @@ minor release &: commit local-install build
 major: override type = major
 major release &: commit unit-testing local-install build
 
-
-#minor: override type = "minor"
-#minor: release
-#
-#major: override type = "major"
-#major: release
-#
