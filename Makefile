@@ -262,6 +262,8 @@ commit: bump
 # Release
 # ------------------------------------------------------------------------------------
 
+$(type) release: commit local-install build
+
 patch: override type = "patch"
 patch release: commit local-install build
 
