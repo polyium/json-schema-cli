@@ -107,15 +107,15 @@ package = $(shell git remote -v | grep "(fetch)" | sed 's/^origin[[:space:]]*//;
 
 version = $(shell [ -f VERSION ] && head VERSION || echo "0.0.0")
 
-major      		= $(shell echo $(version) | sed "s/^\([0-9]*\).*/\1/")
-minor      		= $(shell echo $(version) | sed "s/[0-9]*\.\([0-9]*\).*/\1/")
-patch      		= $(shell echo $(version) | sed "s/[0-9]*\.[0-9]*\.\([0-9]*\).*/\1/")
+major-version      		= $(shell echo $(version) | sed "s/^\([0-9]*\).*/\1/")
+minor-version      		= $(shell echo $(version) | sed "s/[0-9]*\.\([0-9]*\).*/\1/")
+patch-version      		= $(shell echo $(version) | sed "s/[0-9]*\.[0-9]*\.\([0-9]*\).*/\1/")
 
 zero = $(shell printf "%s" "0")
 
-major-upgrade 	= $(shell expr $(major) + 1).$(zero).$(zero)
-minor-upgrade 	= $(major).$(shell expr $(minor) + 1).$(zero)
-patch-upgrade 	= $(major).$(minor).$(shell expr $(patch) + 1)
+major-upgrade 	= $(shell expr $(major-version) + 1).$(zero).$(zero)
+minor-upgrade 	= $(major-version).$(shell expr $(minor-version) + 1).$(zero)
+patch-upgrade 	= $(major-version).$(minor-version).$(shell expr $(patch-version) + 1)
 
 dirty = $(shell git diff --quiet)
 dirty-contents 			= $(shell git diff --shortstat 2>/dev/null 2>/dev/null | tail -n1)
