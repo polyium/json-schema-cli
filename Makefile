@@ -162,23 +162,23 @@ pre-requisites:
 	@$(call step,"Verified Virtual Environment") && echo
 
 # ====================================================================================
-# Brew
+# Brew & Installation
 # ------------------------------------------------------------------------------------
 
-.PHONY: uninstall
-uninstall:
+.PHONY: brew-uninstall
+brew-uninstall:
 	@echo "$(blue-bold)Uninstalling Package$(reset): ($(name))" && echo
 	@rm -rf /opt/homebrew/etc/gitconfig
 	@brew uninstall $(name) --force || true
 	@brew untap $(homebrew-tap) --force || true
 	@$(call step,"Uninstalled & Untapped") && echo
 
-.PHONY: install
-install: uninstall
+.PHONY: brew-install
+brew-install: brew-uninstall
 	@echo "$(blue-bold)Installing Package$(reset): ($(name))" && echo
-	@brew tap $(homebrew-tap) $(homebrew-tap-repository) --force-auto-update --force
-	@brew update
-	@brew install $(name)
+	 @brew tap $(homebrew-tap) $(homebrew-tap-repository) --force-auto-update --force
+	 @brew update
+	 @brew install $(name)
 	@echo "$(green-bold)Successfully Installed Package$(reset)" && echo
 
 .PHONY: overwrite-private-homebrew-download-strategy
@@ -194,6 +194,13 @@ overwrite-private-homebrew-download-strategy:
 	@cd "$(git rev-parse --show-toplevel)"
 	@rm -rf ./.upstreams
 	@echo "$(green-bold)Successfully Changed Upstream$(reset)" && echo
+
+.PHONY: local-install
+local-install: pre-requisites
+	@echo "$(blue-bold)Installing Package$(reset): ($(name))" && echo
+	@python -m pip install --editable ".[all]" --force-reinstall
+	 @brew install $(name)
+	@echo "$(green-bold)Successfully Installed Package$(reset)" && echo
 
 # ====================================================================================
 # Testing
@@ -238,4 +245,5 @@ commit: bump
 	@$(call step,"Pushed Semantic Tag Version") && echo
 
 .PHONY: release-$(type)
-release-$(type): commit
+release-$(type): commit local-install
+
