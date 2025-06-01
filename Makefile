@@ -25,8 +25,9 @@ ifdef HOMEBREW_TAP_REPOSITORY
 endif
 
 type := patch
+
 ifdef RELEASE_TYPE
-    override type := $(CI_RELEASE_TYPE)
+    override type = $(CI_RELEASE_TYPE)
 endif
 
 type-title = $(shell printf "%s" "$(shell tr '[:lower:]' '[:upper:]' <<< "$(type)")")
@@ -264,8 +265,11 @@ commit: bump
 
 # release: commit local-install build
 
-minor: override type = "patch"
-minor release &: commit local-install build
+patch: override type = patch
+minor: override type = minor
+major: override type = major
+
+$(type) release &: commit local-install build
 
 
 #minor: override type = "minor"
