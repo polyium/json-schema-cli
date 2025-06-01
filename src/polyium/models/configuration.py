@@ -2,7 +2,7 @@ import typing
 
 import pydantic
 
-import models.internal.utilities
+import polyium.models.internal.utilities
 
 def default(title: typing.Optional[str] = None, metaschema: str = "https://json-schema.org/draft/2020-12/schema", **kwargs: typing.Any) -> pydantic.ConfigDict:
     """
@@ -48,9 +48,9 @@ def default(title: typing.Optional[str] = None, metaschema: str = "https://json-
         strict=True,
         use_enum_values=True,
         use_attribute_docstrings=True,
-        alias_generator=models.internal.utilities.snake_case_to_train_case_alias_generator,
-        model_title_generator=models.internal.utilities.snake_case_to_train_case_model_title_generator,
-        field_title_generator=models.internal.utilities.snake_case_to_train_case_field_title_generator,
+        alias_generator=polyium.models.internal.utilities.snake_case_to_train_case_alias_generator,
+        model_title_generator=polyium.models.internal.utilities.snake_case_to_train_case_model_title_generator,
+        field_title_generator=polyium.models.internal.utilities.snake_case_to_train_case_field_title_generator,
         json_schema_serialization_defaults_required=True,
     )
 

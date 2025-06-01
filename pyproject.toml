@@ -33,7 +33,10 @@ dynamic = ["version"]
 [project.scripts]
 # Only applicable for callable(s).
 # - The callable doesn't necessarily have to be the name of the project.
-json-schema-cli = "cli:main.executable"
+json-schema-cli = "polyium.cli:main.executable"
+
+[project.entry-points."polyium"]
+tomatoes = "polyium:main"
 
 # development dependency groups
 [project.optional-dependencies]
@@ -63,7 +66,7 @@ Homepage = "https://github.com/poly-gun/json-schema-cli"
 Issues = "https://github.com/poly-gun/json-schema-cli"
 
 [tool.setuptools_scm]
-version_file = "src/internal/__version__.py"
+version_file = "src/polyium/internal/__version__.py"
 version_scheme = "only-version"
 local_scheme = "no-local-version"
 normalize = false
@@ -103,17 +106,14 @@ filterwarnings = [
 line-length = 160
 
 [tool.setuptools]
-include-package-data = false
+include-package-data = true
 
 [tool.setuptools.packages.find]
-where = ["src/"]
+where = ["src"]    # ["."] by default
+include = ["*"]     # ["*"] by default
+exclude = []        # empty by default
+namespaces = true   # true by default
 
-# namespaces = true  # true by default
-#
-# where = ["."]  # ["."] by default
-# include = ["*"]  # ["*"] by default
-# exclude = []  # empty by default
-
-# [tool.setuptools.package-data]
-# "internal.data" = ["*.json"]
-# "vendor" = ["vendor/*"]
+[tool.setuptools.data-files]
+# "polyium" = ["pyproject.toml"]
+# "vendor" = ["src/vendor/*"]

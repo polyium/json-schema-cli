@@ -1,6 +1,6 @@
 import pydantic
 
-import models.configuration
+import polyium.models.configuration
 
 class Model(pydantic.BaseModel):
     """
@@ -12,7 +12,7 @@ class Model(pydantic.BaseModel):
     whitespace from strings, enabling strict validation, and generating aliases.
     """
 
-    model_config = models.configuration.default()
+    model_config = polyium.models.configuration.default()
 
     def __str__(self) -> str:
         return self.jsonify()

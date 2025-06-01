@@ -35,9 +35,9 @@ class Version:
 
     def __post_init__(self):
         try:
-            import internal.__version__
+            import polyium.internal.__version__
 
-            string = internal.__version__.version
+            string = polyium.internal.__version__.version
 
             self.literal = string
 

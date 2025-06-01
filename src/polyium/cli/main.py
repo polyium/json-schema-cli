@@ -2,13 +2,17 @@
 An example entrypoint.
 """
 
+import sys
 import re
+import typing
+
 import logging
 import argparse
 
 handler = logging.StreamHandler()
 
 logger = logging.getLogger(__name__)
+
 
 class Formatter(logging.Formatter):
     expression = r"(?<!\w)'([^\s']+)'(?!\w)"
@@ -24,6 +28,15 @@ formatter = Formatter("[%(levelname)s] (%(asctime)s) (%(name)s) %(message)s")
 
 handler.setFormatter(formatter)
 
+def version():
+    import polyium.internal.versioning
+
+    v = polyium.internal.versioning.Version()
+
+    sys.stdout.write("%s\n" % v)
+
+    exit(0)
+
 def executable():
     logging.basicConfig(level=logging.DEBUG, datefmt="%Y-%m-%dT%H:%M:%SZ")
     logger.addHandler(handler)
@@ -31,6 +44,8 @@ def executable():
 
     # Create an argument parser object.
     parser = argparse.ArgumentParser(description="Python Example Template")
+
+    parser.add_argument("-v", "--version", action="store_true", help="display the version", dest="version")
 
     parser_group_1 = parser.add_argument_group("logging")
     parser_group_1.add_argument("--verbose", type=bool, help="toggle verbose output", metavar="")
@@ -40,6 +55,9 @@ def executable():
     namespace = parser.parse_args()
 
     arguments = vars(namespace)
+
+    if arguments["version"]:
+        version()
 
     logger.debug("Arguments: %r", arguments)
 

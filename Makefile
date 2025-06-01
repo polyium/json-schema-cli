@@ -14,13 +14,13 @@ ifdef CI_PROJECT_NAME
 endif
 
 homebrew-tap := polyium/json-schema-cli
-ifdef CI_HOMEBREW_TAP
+ifdef HOMEBREW_TAP
     override homebrew-tap = $(CI_HOMEBREW_TAP)
 endif
 
 # homebrew-tap-repository := gitlab.com:example-organization/group-1/group-2/homebrew-taps.git
 homebrew-tap-repository := https://github.com/polyium/homebrew-taps
-ifdef CI_HOMEBREW_TAP_REPOSITORY
+ifdef HOMEBREW_TAP_REPOSITORY
     override homebrew-tap-repository = $(CI_HOMEBREW_TAP_REPOSITORY)
 endif
 
@@ -199,17 +199,31 @@ overwrite-private-homebrew-download-strategy:
 local-install: pre-requisites
 	@echo "$(blue-bold)Installing Package$(reset): ($(name))" && echo
 	@python -m pip install --editable ".[all]" --force-reinstall
-	 @brew install $(name)
 	@echo "$(green-bold)Successfully Installed Package$(reset)" && echo
 
 # ====================================================================================
 # Testing
 # ------------------------------------------------------------------------------------
 
+.PHONY: unit-testing
 unit-testing:
 	@echo "$(blue-bold)Running Unit Test(s)$(reset) ..." && echo
 	@python -m pytest && echo
 	@$(call step,"Complete") && echo
+
+# ====================================================================================
+# Packaging
+# ------------------------------------------------------------------------------------
+
+.PHONY: build
+build:
+	@python -m pip install --upgrade pip build setuptools
+	@python -m build --verbose --outdir distribution .
+
+.PHONY: list-build-files
+list-build-files:
+	@unzip -l distribution/*.whl
+	# @tar tf distribution/*.tar.gz
 
 # ====================================================================================
 # Git + Versioning
