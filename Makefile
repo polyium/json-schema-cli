@@ -179,7 +179,7 @@ install: uninstall
 	@brew tap $(homebrew-tap) $(homebrew-tap-repository) --force-auto-update --force
 	@brew update
 	@brew install $(name)
-	@echo "$(green-bold)Successfully Installed Package$(reset)"
+	@echo "$(green-bold)Successfully Installed Package$(reset)" && echo
 
 .PHONY: overwrite-private-homebrew-download-strategy
 overwrite-private-homebrew-download-strategy:
@@ -193,16 +193,16 @@ overwrite-private-homebrew-download-strategy:
 	@cd ./.upstreams/homebrew-taps && git add ./Formula/$(name).rb && git commit -m "[Chore] - Overwrote URL + Tag" && git push -u origin main
 	@cd "$(git rev-parse --show-toplevel)"
 	@rm -rf ./.upstreams
-	@echo "$(green-bold)Successfully Changed Upstream$(reset)"
+	@echo "$(green-bold)Successfully Changed Upstream$(reset)" && echo
 
 # ====================================================================================
 # Testing
 # ------------------------------------------------------------------------------------
 
 unit-testing:
-	@printf "$(blue-bold)%s$(reset)\n" "Running Unit Test(s) ...$(reset)"
-	@python -m pytest
-	@$(call step,"Complete")
+	@printf "$(blue-bold)%s$(reset)\n" "Running Unit Test(s)$(reset) ..." && echo
+	@python -m pytest && echo
+	@$(call step,"Complete") && echo
 
 # ====================================================================================
 # Git + Versioning
@@ -210,21 +210,21 @@ unit-testing:
 
 .PHONY: git-check-tree
 git-check-tree:
-	@printf "$(blue-bold)%s$(reset)\n" "Checking Working Tree ...$(reset)"
+	@echo "$(blue-bold)"Checking Working Tree"$(reset) ..." && echo
 	@if ! git diff --quiet --exit-code; then \
     	git status ; \
     	echo "" ; \
 		echo "$(red-bold)Dirty Working Tree$(reset) - Commit Changes and Try Again"; \
 		echo "" ; \
 		exit 1; \
-	else \
-	    echo "$(green-bold)Clean Working Tree$(reset)"; \
 	fi
+	@$(call step, "Clean Working Tree") && echo
 
 .PHONY: bump
 bump: pre-requisites unit-testing git-check-tree
-	@printf "$(green-bold)%s$(reset)\n" "Bumping Version: \"$(yellow-bold)$(package)$(reset)\" - $(white-bold)$(version)$(reset)"
+	@echo "$(green-bold)Bumping Version: \"$(yellow-bold)$(package)$(reset)\" - $(white-bold)$(version)$(reset)"$(reset)"
 	@echo "$($(type)-upgrade)" > VERSION
+	@$(call step, "Updated Version Lock") && echo
 
 .PHONY: commit
 commit: bump
@@ -234,7 +234,13 @@ commit: bump
 	@git push --set-upstream origin main
 	@git tag "v$(version)"
 	@git push origin "v$(version)"
+	@$(call step, "Pushed Semantic Tag Version") && echo
 
-release-patch: bump ;
-release-minor: bump ;
-release-major: bump ;
+.PHONY: release-patch
+release-patch: bump
+
+.PHONY: release-minor
+release-minor: bump
+
+.PHONY: release-major
+release-major: bump
