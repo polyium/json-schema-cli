@@ -26,7 +26,7 @@ endif
 
 type := patch
 ifdef RELEASE_TYPE
-    override type = $(CI_RELEASE_TYPE)
+    override type := $(CI_RELEASE_TYPE)
 endif
 
 type-title = $(shell printf "%s" "$(shell tr '[:lower:]' '[:upper:]' <<< "$(type)")")
@@ -265,7 +265,8 @@ commit: bump
 release: commit local-install build
 
 patch: override type = "patch"
-patch: release
+	commit local-install build
+# patch: release
 
 minor: override type = "minor"
 minor: release
