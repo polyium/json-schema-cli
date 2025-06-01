@@ -59,8 +59,8 @@ documentation = [
 all = ["example[testing,documentation,code-generation]"]
 
 [project.urls]
-Homepage = "https://github.com/poly-gun/template-python-project"
-Issues = "https://github.com/poly-gun/template-python-project"
+Homepage = "https://github.com/poly-gun/json-schema-cli"
+Issues = "https://github.com/poly-gun/json-schema-cli"
 
 [tool.setuptools_scm]
 version_file = "src/example/internal/__version__.py"

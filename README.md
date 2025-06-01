@@ -1,22 +1,6 @@
-# `template-python-project`
+# `json-schema-cli`
 
-## Overview
-
-The following repository demonstrates an example Python project -- both as a library and callable.
-
-Additionally, there includes documentation, examples, and scripts relating to:
-
-- Python packaging best practices
-- Private package registries
-- Private CA certificates and considerations
-- Virtual Environments
-- Local development opportunities and implications
-
-## CI-CD
-
-The project includes a [`.gitlab-ci.yml`](./.gitlab-ci.yml) file that demonstrates automated-related builds, testing,
-and other useful "workflows" or "pipeline" logic. While not compatible with GitHub, configuration
-is relatively the same and straight forward.
+A tool used for generating JSON schema using dynamically imported pydantic model(s).
 
 ## Contributing and Local Development
 
