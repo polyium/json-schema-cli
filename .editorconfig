@@ -27,5 +27,5 @@ tab_width = 4
 ij_shell_indent_size = 4
 ij_shell_tab_width = 4
 
-[MANIFEST.in]
+[{VERSION, MANIFEST.in}]
 insert_final_newline = false

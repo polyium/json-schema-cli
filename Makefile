@@ -272,7 +272,7 @@ minor: override type = minor
 minor release &: commit local-install build
 
 major: override type = major
-major release &: commit local-install build
+major release &: commit unit-testing local-install build
 
 
 #minor: override type = "minor"
