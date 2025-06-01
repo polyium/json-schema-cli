@@ -33,7 +33,7 @@ dynamic = ["version"]
 [project.scripts]
 # Only applicable for callable(s).
 # - The callable doesn't necessarily have to be the name of the project.
-json-schema-cli = "cli.cli:main.executable"
+json-schema-cli = "cli:main.executable"
 
 # development dependency groups
 [project.optional-dependencies]
@@ -56,14 +56,14 @@ documentation = [
 ]
 
 # all optional dependency groups
-all = ["example[testing,documentation,code-generation]"]
+all = ["json-schema-cli[testing,documentation,code-generation]"]
 
 [project.urls]
 Homepage = "https://github.com/poly-gun/json-schema-cli"
 Issues = "https://github.com/poly-gun/json-schema-cli"
 
 [tool.setuptools_scm]
-version_file = "src/example/internal/__version__.py"
+version_file = "src/internal/__version__.py"
 version_scheme = "only-version"
 local_scheme = "no-local-version"
 normalize = false

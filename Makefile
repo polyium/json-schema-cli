@@ -32,9 +32,9 @@ endif
 type-title = $(shell printf "%s" "$(shell tr '[:lower:]' '[:upper:]' <<< "$(type)")")
 
 ifeq (,$(shell go env GOBIN))
-	GOBIN=$(shell go env GOPATH)/bin
+    GOBIN=$(shell go env GOPATH)/bin
 else
-	GOBIN=$(shell go env GOBIN)
+    GOBIN=$(shell go env GOBIN)
 endif
 
 # Setting SHELL to bash allows bash commands to be executed by recipes.
@@ -70,17 +70,29 @@ reset        := $(shell printf "\033[0m")
 # ====================================================================================
 # Logger
 # ------------------------------------------------------------------------------------
+#
+# - Variables are declared with $@_ prefix that makes them "local" to the rule.
+#
 
-time-long	= $(date +%Y-%m-%d' '%H:%M:%S)
-time-short	= $(date +%H:%M:%S)
-time		= $(time-short)
+define format
+    $(eval $@_COLOR = $(1))
+    $(eval $@_RESET = $(2))
+    $(eval $@_MESSAGE = $(3))
 
-information	= echo $(time) $(green)[ INFO ]$(reset)
-debug	= echo $(time) $(blue)[ DEBUG ]$(reset)
-warning	= echo $(time) $(yellow)[ WARNING ]$(reset)
-exception		= echo $(time) $(red)[ ERROR ]$(reset)
-complete		= echo $(time) $(white)[ COMPLETE ]$(reset)
-fail	= (echo $(time) $(red)[ FAILURE ]$(reset) && false)
+    @echo "${$@_COLOR}${$@_MESSAGE}${$@_RESET}"
+endef
+
+define info
+    @$(call format,"$(blue-bold)","$(reset)","$(1)")
+endef
+
+define trace
+    @$(call format,"$(faint)","$(reset)","$(1)")
+endef
+
+define step
+    @$(call trace," - $(1)")
+endef
 
 # ====================================================================================
 # Utility Command(s)
@@ -120,28 +132,34 @@ region 		= $(shell aws configure get region)
 
 all :: pre-requisites
 
+.PHONY: example-pip-install-command
+example-pip-install-command:
+	@echo "$(italic)    python3 -m venv .venv$(reset)"
+	@echo "$(italic)    source .venv/bin/activate$(reset)"
+	@echo "$(italic)    python -m pip install \".[all]\"$(reset)"
+
 # ====================================================================================
 # Pre-Requisites
 # ------------------------------------------------------------------------------------
 
 .PHONY: pre-requisites
 pre-requisites:
-	@echo "$(blue-bold)Checking Requirements ...$(reset)" && echo ""
+	@echo "$(blue-bold)Checking Requirements ...$(reset)"
 	@command -v brew 2>&1> /dev/null || bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-	@command -v pre-commit 2>&1> /dev/null || brew install pre-commit && pre-commit install && pre-commit install-hooks
+	@$(call step,"Verified Homebrew Installation")
+	@command -v pre-commit 2>&1> /dev/null || brew install pre-commit && pre-commit install 2>&1> /dev/null && pre-commit install-hooks 2>&1> /dev/null
+	@$(call step,"Verified Pre-Commit Hooks")
 	@if [[ -z "${VIRTUAL_ENV}" ]]; then \
     	echo ""; \
 		echo "$(red-bold)Please Activate a Python Virtual Environment$(reset)"; \
 		echo ""; \
-		echo "$(italic)    python3 -m venv .venv$(reset)"; \
-		echo "$(italic)    source .venv/bin/activate$(reset)"; \
-		echo "$(italic)    python -m pip install \".[all]\"$(reset)"; \
+		echo "$(italic)    python3 -m venv .venv$(reset)" ; \
+		echo "$(italic)    source .venv/bin/activate$(reset)" ; \
+		echo "$(italic)    python -m pip install \".[all]\"$(reset)" ; \
 		echo ""; \
 		exit 1; \
-	else \
-	    echo "$(green-bold)Virtual Environment Activated$(reset)"; \
 	fi
-	@echo "$(green-bold)Requirements Have Been Successfully Verified$(reset)"
+	@$(call step,"Verified Virtual Environment") && echo
 
 # ====================================================================================
 # Brew
@@ -153,7 +171,7 @@ uninstall:
 	@rm -rf /opt/homebrew/etc/gitconfig
 	@brew uninstall $(name) --force || true
 	@brew untap $(homebrew-tap) --force || true
-	@echo "$(green-bold)Successfully Uninstalled Package$(reset)"
+	@$(call step,"Uninstalled & Untapped") && echo
 
 .PHONY: install
 install: uninstall
@@ -184,7 +202,7 @@ overwrite-private-homebrew-download-strategy:
 unit-testing:
 	@printf "$(blue-bold)%s$(reset)\n" "Running Unit Test(s) ...$(reset)"
 	@python -m pytest
-	@echo "$(green-bold)Done$(reset)"
+	@$(call step,"Complete")
 
 # ====================================================================================
 # Git + Versioning
@@ -204,7 +222,7 @@ git-check-tree:
 	fi
 
 .PHONY: bump
-bump: unit-testing git-check-tree
+bump: pre-requisites unit-testing git-check-tree
 	@printf "$(green-bold)%s$(reset)\n" "Bumping Version: \"$(yellow-bold)$(package)$(reset)\" - $(white-bold)$(version)$(reset)"
 	@echo "$($(type)-upgrade)" > VERSION
 
@@ -217,7 +235,6 @@ commit: bump
 	@git tag "v$(version)"
 	@git push origin "v$(version)"
 
-.PHONY: test-commit
-test-commit: bump
-	@echo "$(blue-bold)Tag-Release$(reset) ($(type-title)): $(yellow-bold)$(package)$(reset) - $(white-bold)$(version)$(reset)"
-
+release-patch: bump ;
+release-minor: bump ;
+release-major: bump ;
