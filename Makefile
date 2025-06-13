@@ -178,9 +178,9 @@ brew-uninstall:
 .PHONY: brew-install
 brew-install: brew-uninstall
 	@echo "$(blue-bold)Installing Package$(reset): ($(name))" && echo
-	 @brew tap $(homebrew-tap) $(homebrew-tap-repository) --force-auto-update --force
-	 @brew update
-	 @brew install $(name)
+	@brew tap $(homebrew-tap) $(homebrew-tap-repository) --force-auto-update --force
+	@brew update
+	@brew install $(name)
 	@echo "$(green-bold)Successfully Installed Package$(reset)" && echo
 
 .PHONY: overwrite-private-homebrew-download-strategy
