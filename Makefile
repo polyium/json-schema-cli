@@ -149,6 +149,8 @@ pre-requisites:
 	@$(call step,"Verified Homebrew Installation")
 	@command -v pre-commit 2>&1> /dev/null || brew install pre-commit && pre-commit install 2>&1> /dev/null && pre-commit install-hooks 2>&1> /dev/null
 	@$(call step,"Verified Pre-Commit Hooks")
+	@command -v pipx 2>&1> /dev/null || (brew install pipx 2>&1> /dev/null && pipx ensurepath 2>&1> /dev/null)
+	@$(call step,"Verified PIPX")
 	@if [[ -z "${VIRTUAL_ENV}" ]]; then \
     	echo ""; \
 		echo "$(red-bold)Please Activate a Python Virtual Environment$(reset)"; \
